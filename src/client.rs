@@ -149,7 +149,7 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 use std::time::Duration;
 use tokio::io::{AsyncRead, AsyncWrite, AsyncWriteExt};
-use tracing::{error, Instrument};
+use tracing::{debug, error, Instrument};
 
 /// Initializes new HTTP/2 streams on a connection by sending a request.
 ///
@@ -1680,6 +1680,7 @@ impl proto::Peer for Peer {
                 } else {
                     error!(stream_id = u32::from(stream_id), ?err);
                 }
+                debug!(?fields);
                 // TODO: Should there be more specialized handling for different
                 // kinds of errors
                 return Err(Error::library_reset(stream_id, Reason::PROTOCOL_ERROR));
